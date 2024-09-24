@@ -28,8 +28,16 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: ['superAdmin', 'admin', 'seller'],
       default: 'seller',
     },
+    isAdminApproved: {
+      type: Boolean,
+      default: false,
+    },
     passwordChangedAt: {
       type: Date,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {

@@ -10,6 +10,7 @@ export interface TUser {
   role: 'superAdmin' | 'admin' | 'seller';
   isAdminApproved: boolean;
   passwordChangedAt?: Date;
+  isDeleted: boolean;
 }
 
 export interface UserModel extends Model<TUser> {

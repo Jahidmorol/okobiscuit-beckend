@@ -1,79 +1,79 @@
-import httpStatus from 'http-status';
-import appError from '../../errors/appError';
-import { TUser } from './admin.interface';
-import QueryBuilder from '../../builder/QueryBuilder';
-import { UserSearchableFields } from './admin.constant';
-import { User } from './admin.model';
+// import httpStatus from 'http-status';
+// import appError from '../../errors/appError';
+// import { TUser } from './admin.interface';
+// import QueryBuilder from '../../builder/QueryBuilder';
+// import { UserSearchableFields } from './admin.constant';
+// import { User } from './admin.model';
 
-const createAdmin = async (payload: TUser) => {
-  const userData: Partial<TUser> = { ...payload };
+// const createAdmin = async (payload: TUser) => {
+//   const userData: Partial<TUser> = { ...payload };
 
-  const isUserExist = await User.findOne({ email: payload.email });
+//   const isUserExist = await User.findOne({ email: payload.email });
 
-  if (isUserExist) {
-    throw new appError(httpStatus.CONFLICT, 'User already exists');
-  }
+//   if (isUserExist) {
+//     throw new appError(httpStatus.CONFLICT, 'User already exists');
+//   }
 
-  userData.role = 'admin';
+//   userData.role = 'admin';
 
-  const result = await User.create(userData);
+//   const result = await User.create(userData);
 
-  return result;
-};
+//   return result;
+// };
 
-const getMe = async (email: string) => {
-  const result = await User.findOne({ email });
+// const getMe = async (email: string) => {
+//   const result = await User.findOne({ email });
 
-  return result;
-};
+//   return result;
+// };
 
-const updateMe = async (email: string, payload: Record<string, unknown>) => {
-  const isUserExist = await User.findOne({ email });
+// const updateMe = async (email: string, payload: Record<string, unknown>) => {
+//   const isUserExist = await User.findOne({ email });
 
-  if (!isUserExist) {
-    throw new appError(httpStatus.NOT_FOUND, 'User not found');
-  }
+//   if (!isUserExist) {
+//     throw new appError(httpStatus.NOT_FOUND, 'User not found');
+//   }
 
-  const result = await User.findOneAndUpdate({ email: email }, payload, {
-    new: true,
-  });
+//   const result = await User.findOneAndUpdate({ email: email }, payload, {
+//     new: true,
+//   });
 
-  return result;
-};
+//   return result;
+// };
 
-const getAllUser = async (query: Record<string, unknown>) => {
-  const UserQuery = new QueryBuilder(User.find(), query)
-    .search(UserSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+// const getAllUser = async (query: Record<string, unknown>) => {
+//   const UserQuery = new QueryBuilder(User.find(), query)
+//     .search(UserSearchableFields)
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
 
-  const meta = await UserQuery.countTotal();
-  const result = await UserQuery.modelQuery;
+//   const meta = await UserQuery.countTotal();
+//   const result = await UserQuery.modelQuery;
 
-  return {
-    meta,
-    result,
-  };
-};
+//   return {
+//     meta,
+//     result,
+//   };
+// };
 
-const deleteUser = async (id: string) => {
-  const findMachine = await User.findOne({ _id: id });
+// const deleteUser = async (id: string) => {
+//   const findMachine = await User.findOne({ _id: id });
 
-  if (!findMachine) {
-    throw new appError(404, 'User not found!');
-  }
+//   if (!findMachine) {
+//     throw new appError(404, 'User not found!');
+//   }
 
-  await User.findOneAndDelete({ _id: id });
+//   await User.findOneAndDelete({ _id: id });
 
-  return null;
-};
+//   return null;
+// };
 
-export const UserService = {
-  createAdmin,
-  getMe,
-  updateMe,
-  getAllUser,
-  deleteUser,
-};
+// export const UserService = {
+//   createAdmin,
+//   getMe,
+//   updateMe,
+//   getAllUser,
+//   deleteUser,
+// };

@@ -15,6 +15,7 @@ const createAdmin = async (payload: TUser) => {
   }
 
   userData.role = 'admin';
+  userData.isAdminApproved = true;
 
   const result = await User.create(userData);
 

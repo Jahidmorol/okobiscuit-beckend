@@ -16,8 +16,8 @@ router.post(
 
 router.post(
   '/seller',
-  auth(USER_ROLE.seller),
   validateRequest(UserValidation.createUserValidationSchema),
+  userControllers.createSeller,
 );
 
 router.get(

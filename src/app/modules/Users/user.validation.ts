@@ -1,46 +1,48 @@
 import { z } from 'zod';
 
 const createUserValidationSchema = z.object({
-  body: z.object({
-    name: z.string({
-      required_error: 'Name is required',
-    }),
-    photo: z.string({
-      required_error: 'photo is required',
-    }),
-    email: z
-      .string({
-        required_error: 'email is required',
-      })
-      .email({
-        message: 'Invalid email address',
+  body: z
+    .object({
+      name: z.string({
+        required_error: 'Name is required',
       }),
-    password: z
-      .string({
-        required_error: 'Password is required',
-      })
-      .refine(
-        (value) => {
-          const hasUpperCase = /[A-Z]/.test(value);
-          const hasLowerCase = /[a-z]/.test(value);
-          const hasNumber = /[0-9]/.test(value);
-          const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-          const isLongEnough = value.length >= 8;
+      photo: z.string({
+        required_error: 'photo is required',
+      }),
+      email: z
+        .string({
+          required_error: 'email is required',
+        })
+        .email({
+          message: 'Invalid email address',
+        }),
+      password: z
+        .string({
+          required_error: 'Password is required',
+        })
+        .refine(
+          (value) => {
+            const hasUpperCase = /[A-Z]/.test(value);
+            const hasLowerCase = /[a-z]/.test(value);
+            const hasNumber = /[0-9]/.test(value);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+            const isLongEnough = value.length >= 8;
 
-          return (
-            hasUpperCase &&
-            hasLowerCase &&
-            hasNumber &&
-            hasSpecialChar &&
-            isLongEnough
-          );
-        },
-        {
-          message:
-            'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character',
-        },
-      ),
-  }),
+            return (
+              hasUpperCase &&
+              hasLowerCase &&
+              hasNumber &&
+              hasSpecialChar &&
+              isLongEnough
+            );
+          },
+          {
+            message:
+              'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character',
+          },
+        ),
+    })
+    .strict(),
 });
 
 const updateUserValidationSchema = z.object({
@@ -52,51 +54,7 @@ const updateUserValidationSchema = z.object({
     .strict(),
 });
 
-const registerSellerValidationSchema = z.object({
-  body: z.object({
-    name: z.string({
-      required_error: 'Name is required',
-    }),
-    photo: z.string({
-      required_error: 'photo is required',
-    }),
-    email: z
-      .string({
-        required_error: 'email is required',
-      })
-      .email({
-        message: 'Invalid email address',
-      }),
-    password: z
-      .string({
-        required_error: 'Password is required',
-      })
-      .refine(
-        (value) => {
-          const hasUpperCase = /[A-Z]/.test(value);
-          const hasLowerCase = /[a-z]/.test(value);
-          const hasNumber = /[0-9]/.test(value);
-          const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-          const isLongEnough = value.length >= 8;
-
-          return (
-            hasUpperCase &&
-            hasLowerCase &&
-            hasNumber &&
-            hasSpecialChar &&
-            isLongEnough
-          );
-        },
-        {
-          message:
-            'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character',
-        },
-      ),
-  }),
-});
-
 export const UserValidation = {
-  registerSellerValidationSchema,
   createUserValidationSchema,
   updateUserValidationSchema,
 };

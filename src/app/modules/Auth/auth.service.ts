@@ -1,12 +1,12 @@
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import appError from '../../errors/appError';
 import { createToken } from './auth.utils';
 import config from '../../config';
 import { sendEmail } from '../../utils/sendEmail';
+import { User } from '../Users/user.model';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
@@ -43,15 +43,8 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_access_expires_in as string,
   );
 
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_token as string,
-    config.jwt_refresh_expires_in as string,
-  );
-
   return {
     accessToken,
-    refreshToken,
   };
 };
 
@@ -115,64 +108,6 @@ const changePassword = async (
   );
 
   return null;
-};
-
-const refreshToken = async (token: string) => {
-  // checking if the given token is valid
-  const decoded = jwt.verify(
-    token,
-    config.jwt_refresh_token as string,
-  ) as JwtPayload;
-
-  const { email, iat } = decoded;
-
-  // checking if the user is exist
-  const user = await User.isUserExistsByEmail(email);
-
-  if (!user) {
-    throw new appError(httpStatus.NOT_FOUND, 'This user is not found !');
-  }
-  // checking if the user is already deleted
-  const isDeleted = user?.isDeleted;
-
-  if (isDeleted) {
-    throw new appError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  }
-
-  if (
-    user.passwordChangedAt &&
-    User.isJWTIssuedBeforePasswordChanged(user.passwordChangedAt, iat as number)
-  ) {
-    throw new appError(
-      httpStatus.UNAUTHORIZED,
-      'Need to login first, You are not authorized !',
-    );
-  }
-
-  // await User.findOneAndUpdate(
-  //   {
-  //     email: user.email,
-  //     role: user.role,
-  //   },
-  //   {
-  //     passwordChangedAt: new Date(),
-  //   },
-  // );
-
-  const jwtPayload = {
-    email: user.email,
-    role: user.role,
-  };
-
-  const accessToken = createToken(
-    jwtPayload,
-    config.jwt_access_token as string,
-    config.jwt_access_expires_in as string,
-  );
-
-  return {
-    accessToken,
-  };
 };
 
 const forgetPassword = async (email: string) => {
@@ -264,7 +199,6 @@ const resetPassword = async (
 export const AuthServices = {
   loginUser,
   changePassword,
-  refreshToken,
   forgetPassword,
   resetPassword,
 };
