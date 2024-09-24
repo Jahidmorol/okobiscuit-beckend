@@ -9,7 +9,7 @@ const loginUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'User is logged in successfully!',
+    message: 'User logged in successfully!',
     data: result,
   });
 });
@@ -21,7 +21,7 @@ const changePassword = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Password is updated successfully!',
+    message: 'Password updated successfully!',
     data: result,
   });
 });
@@ -31,7 +31,7 @@ const forgetPassword = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Reset link is generated successfully!',
+    message: 'Reset link generated successfully!',
     data: result,
   });
 });

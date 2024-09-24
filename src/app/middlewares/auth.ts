@@ -4,8 +4,8 @@ import catchAsync from '../utils/catchAsync';
 import appError from '../errors/appError';
 import httpStatus from 'http-status';
 import config from '../config';
-import { User } from '../modules/user/user.model';
-import { TUserRole } from '../modules/user/user.interface';
+import { TUserRole } from '../modules/Users/user.interface';
+import { User } from '../modules/Users/user.model';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
