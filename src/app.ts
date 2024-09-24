@@ -3,19 +3,12 @@ import cors from 'cors';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFoundHandler from './app/middlewares/notFoundHandler';
 import router from './app/routes';
-import cookieParser from 'cookie-parser';
 const app = express();
 
 // parser
 app.use(express.json());
-app.use(cookieParser());
 const corsOptions = {
-  origin: [
-    'https://mbiotech-admin.vercel.app',
-    'https://mbiotech-frontend.vercel.app',
-    // 'http://localhost:5173',
-    // 'http://localhost:3000',
-  ],
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
 };
 

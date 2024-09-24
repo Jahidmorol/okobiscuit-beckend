@@ -1,11 +1,10 @@
 import config from '../config';
 import { USER_ROLE } from '../modules/user/user.constant';
 import { TUser } from '../modules/user/user.interface';
-import { User } from '../modules/user/user.model';
 
 const superUser: TUser = {
-  firstName: 'Modern',
-  lastName: 'Biotech',
+  firstName: 'Oko',
+  lastName: 'Biscuit',
   photo: 'https://i.ibb.co/tHnL3Ld/creative.png',
   email: 'superAdmin@gmail.com',
   password: config.super_admin_password || '787898',
