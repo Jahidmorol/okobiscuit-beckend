@@ -4,4 +4,4 @@ export const USER_ROLE = {
   seller: 'seller',
 } as const;
 
-export const UserSearchableFields = ['firstName', 'lastName', 'email'];
+export const UserSearchableFields = ['name', 'email'];

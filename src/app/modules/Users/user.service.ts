@@ -1,11 +1,11 @@
 import httpStatus from 'http-status';
 import appError from '../../errors/appError';
 import { TUser } from './user.interface';
-import { User } from './user.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { UserSearchableFields } from './user.constant';
+import { User } from './user.model';
 
-const createUser = async (payload: TUser) => {
+const createAdmin = async (payload: TUser) => {
   const userData: Partial<TUser> = { ...payload };
 
   const isUserExist = await User.findOne({ email: payload.email });
@@ -15,6 +15,22 @@ const createUser = async (payload: TUser) => {
   }
 
   userData.role = 'admin';
+
+  const result = await User.create(userData);
+
+  return result;
+};
+
+const createSeller = async (payload: TUser) => {
+  const userData: Partial<TUser> = { ...payload };
+
+  const isUserExist = await User.findOne({ email: payload.email });
+
+  if (isUserExist) {
+    throw new appError(httpStatus.CONFLICT, 'User already exists');
+  }
+
+  userData.role = 'seller';
 
   const result = await User.create(userData);
 
@@ -71,7 +87,8 @@ const deleteUser = async (id: string) => {
 };
 
 export const UserService = {
-  createUser,
+  createAdmin,
+  createSeller,
   getMe,
   updateMe,
   getAllUser,

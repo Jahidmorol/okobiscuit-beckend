@@ -3,13 +3,12 @@ import { Model } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
 export interface TUser {
-  firstName: string;
-  lastName: string;
+  name: string;
   photo: string;
   password: string;
   email: string;
-  role: 'superAdmin' | 'admin' | 'user';
-  isDeleted: boolean;
+  role: 'superAdmin' | 'admin' | 'seller';
+  isAdminApproved: boolean;
   passwordChangedAt?: Date;
 }
 
@@ -29,5 +28,4 @@ export interface UserModel extends Model<TUser> {
     jwtIssuedTimestamp: number,
   ): boolean;
 }
-
 export type TUserRole = keyof typeof USER_ROLE;

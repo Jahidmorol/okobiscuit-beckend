@@ -2,11 +2,8 @@ import { z } from 'zod';
 
 const createUserValidationSchema = z.object({
   body: z.object({
-    firstName: z.string({
-      required_error: 'firstName is required',
-    }),
-    lastName: z.string({
-      required_error: 'lastName is required',
+    name: z.string({
+      required_error: 'Name is required',
     }),
     photo: z.string({
       required_error: 'photo is required',
@@ -49,8 +46,7 @@ const createUserValidationSchema = z.object({
 const updateUserValidationSchema = z.object({
   body: z
     .object({
-      firstName: z.string().optional(),
-      lastName: z.string().optional(),
+      name: z.string().optional(),
       photo: z.string().optional(),
     })
     .strict(),

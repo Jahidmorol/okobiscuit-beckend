@@ -5,11 +5,7 @@ import { TUser, UserModel } from './user.interface';
 
 const userSchema = new Schema<TUser, UserModel>(
   {
-    firstName: {
-      type: 'String',
-      required: true,
-    },
-    lastName: {
+    name: {
       type: 'String',
       required: true,
     },
@@ -29,15 +25,11 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: 'String',
-      enum: ['superAdmin', 'admin', 'user'],
-      default: 'user',
+      enum: ['superAdmin', 'admin', 'seller'],
+      default: 'seller',
     },
     passwordChangedAt: {
       type: Date,
-    },
-    isDeleted: {
-      type: 'Boolean',
-      default: false,
     },
   },
   {
