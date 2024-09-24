@@ -17,7 +17,6 @@ export type TOrder = {
   date: string;
   deliveryDate: string;
   items: TOrderItem[];
-
   grandTotalPrice: number;
   advancedPrice: number;
   duePrice: number;

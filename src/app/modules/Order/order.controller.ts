@@ -1,71 +1,71 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { ProductService } from './order.service';
+import { OrderService } from './order.service';
 
-const createProduct = catchAsync(async (req, res) => {
-  const result = await ProductService.createProductDB(req.body);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Product Create Successfully!',
-    data: result,
-  });
-});
-
-const getAllProduct = catchAsync(async (req, res) => {
-  const result = await ProductService.getAllProduct(req.query);
+const createOrder = catchAsync(async (req, res) => {
+  const result = await OrderService.createOrderDB(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Get All Product Successfully!',
+    message: 'Order Create Successfully!',
     data: result,
   });
 });
 
-const getSingleProduct = catchAsync(async (req, res) => {
-  const result = await ProductService.getSingleProduct(req.params.id);
+const getAllOrder = catchAsync(async (req, res) => {
+  const result = await OrderService.getAllOrder(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Get All Product Successfully!',
+    message: 'Get All Order Successfully!',
     data: result,
   });
 });
 
-const deleteProduct = catchAsync(async (req, res) => {
+const getSingleOrder = catchAsync(async (req, res) => {
+  const result = await OrderService.getSingleOrder(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get All Order Successfully!',
+    data: result,
+  });
+});
+
+const deleteOrder = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  const result = await ProductService.deleteProduct(id as string);
+  const result = await OrderService.deleteOrder(id as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Delete Product Successfully!',
+    message: 'Delete Order Successfully!',
     data: result,
   });
 });
 
-const updateProduct = catchAsync(async (req, res) => {
+const updateOrder = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  const result = await ProductService.updateProduct(id as string, req.body);
+  const result = await OrderService.updateOrder(id as string, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Update Product Successfully!',
+    message: 'Update Order Successfully!',
     data: result,
   });
 });
 
-export const ProductController = {
-  createProduct,
-  getAllProduct,
-  getSingleProduct,
-  deleteProduct,
-  updateProduct,
+export const OrderController = {
+  createOrder,
+  getAllOrder,
+  getSingleOrder,
+  deleteOrder,
+  updateOrder,
 };

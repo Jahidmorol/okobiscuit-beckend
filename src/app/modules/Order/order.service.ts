@@ -1,33 +1,28 @@
-import slugify from 'slugify';
 import QueryBuilder from '../../builder/QueryBuilder';
 import appError from '../../errors/appError';
-import { ProductSearchableFields } from './order.constants';
-import { TProduct } from './order.interface';
-import { Product } from './order.model';
+import { User } from '../Users/user.model';
+import { OrderSearchableFields } from './order.constants';
+import { TOrder } from './order.interface';
+import { Order } from './order.model';
 import httpStatus from 'http-status';
 
-const createProductDB = async (payload: TProduct) => {
-  payload.slug = slugify(payload.title, {
-    lower: true,
-    replacement: '_',
-    trim: true,
+const createOrderDB = async (payload: TOrder) => {
+  const isSellerExist = await User.findOne({
+    _id: payload.seller,
+    isAdminApproved: true,
   });
 
-  const isAlreadyExist = await Product.findOne({
-    slug: payload.slug,
-  });
-
-  if (isAlreadyExist) {
-    throw new appError(httpStatus.CONFLICT, 'This product is already exists');
+  if (!isSellerExist) {
+    throw new appError(httpStatus.NOT_FOUND, 'This Seller does not exist');
   }
 
-  const result = await Product.create(payload);
+  const result = await Order.create(payload);
   return result;
 };
 
-const getAllProduct = async (query: Record<string, unknown>) => {
-  const DoctorQuery = new QueryBuilder(Product.find(), query)
-    .search(ProductSearchableFields)
+const getAllOrder = async (query: Record<string, unknown>) => {
+  const DoctorQuery = new QueryBuilder(Order.find(), query)
+    .search(OrderSearchableFields)
     .filter()
     .sort()
     .paginate()
@@ -42,66 +37,44 @@ const getAllProduct = async (query: Record<string, unknown>) => {
   };
 };
 
-const getSingleProduct = async (id: string) => {
-  const result = await Product.findById(id);
+const getSingleOrder = async (id: string) => {
+  const result = await Order.findById(id);
 
   if (!result) {
-    throw new appError(404, 'Product not found!');
+    throw new appError(httpStatus.NOT_FOUND, 'Order not found!');
   }
 
   return result;
 };
 
-const deleteProduct = async (id: string) => {
-  const findProduct = await Product.findOne({ _id: id });
+const deleteOrder = async (id: string) => {
+  const deleteOrder = await Order.findByIdAndDelete(id);
 
-  if (!findProduct) {
-    throw new appError(404, 'Product not found!');
+  if (!deleteOrder) {
+    throw new appError(httpStatus.NOT_FOUND, 'Order not found!');
   }
-
-  await Product.findOneAndDelete({ _id: id });
 
   return null;
 };
 
-const updateProduct = async (id: string, payload: TProduct) => {
-  const findProduct = await Product.findOne({ _id: id });
+const updateOrder = async (id: string, payload: TOrder) => {
+  const findOrder = await Order.findById(id);
 
-  if (!findProduct) {
-    throw new appError(404, 'Product not found!');
+  if (!findOrder) {
+    throw new appError(httpStatus.NOT_FOUND, 'Order not found!');
   }
 
-  //update slug with new title
-  if (payload.title) {
-    payload.slug = slugify(payload.title, {
-      lower: true,
-      replacement: '_',
-      trim: true,
-    });
-
-    const isExist = await Product.findOne({
-      slug: payload.slug,
-    });
-
-    if (isExist) {
-      throw new appError(
-        httpStatus.CONFLICT,
-        'This product name is already exists',
-      );
-    }
-  }
-
-  const result = await Product.findByIdAndUpdate({ _id: id }, payload, {
+  const result = await Order.findByIdAndUpdate(id, payload, {
     new: true,
   });
 
   return result;
 };
 
-export const ProductService = {
-  createProductDB,
-  getAllProduct,
-  getSingleProduct,
-  deleteProduct,
-  updateProduct,
+export const OrderService = {
+  createOrderDB,
+  getAllOrder,
+  getSingleOrder,
+  deleteOrder,
+  updateOrder,
 };
