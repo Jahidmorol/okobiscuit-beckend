@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin, USER_ROLE.seller),
   validateRequest(createOrderValidationSchema),
   OrderController.createOrder,
 );

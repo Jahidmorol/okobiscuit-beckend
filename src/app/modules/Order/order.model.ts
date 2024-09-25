@@ -20,7 +20,6 @@ const OrderSchema = new Schema<TOrder>(
     shopOwnerName: { type: String, required: true },
     contact: { type: String, required: true },
     address: { type: String, required: true },
-    date: { type: String, required: true },
     deliveryDate: { type: String, required: true },
     items: { type: [OrderItemSchema], required: true },
 

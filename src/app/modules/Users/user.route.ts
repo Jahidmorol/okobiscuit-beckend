@@ -47,4 +47,10 @@ router.patch(
   userControllers.verifySellerRegistration,
 );
 
+router.get(
+  '/seller-requests',
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  userControllers.getAllVerifyRequest,
+);
+
 export const userRoutes = router;

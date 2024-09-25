@@ -31,7 +31,7 @@ const getSingleOrder = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Get All Order Successfully!',
+    message: 'Get Single Order Successfully!',
     data: result,
   });
 });

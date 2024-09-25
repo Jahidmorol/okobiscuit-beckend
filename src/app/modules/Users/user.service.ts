@@ -39,13 +39,13 @@ const createSeller = async (payload: TUser) => {
 };
 
 const getMe = async (email: string) => {
-  const result = await User.findOne({ email });
+  const result = await User.findOne({ email, isDeleted: false });
 
   return result;
 };
 
 const updateMe = async (email: string, payload: Record<string, unknown>) => {
-  const isUserExist = await User.findOne({ email });
+  const isUserExist = await User.findOne({ email, isDeleted: false });
 
   if (!isUserExist) {
     throw new appError(httpStatus.NOT_FOUND, 'User not found');
@@ -59,7 +59,7 @@ const updateMe = async (email: string, payload: Record<string, unknown>) => {
 };
 
 const getAllUser = async (query: Record<string, unknown>) => {
-  const UserQuery = new QueryBuilder(User.find(), query)
+  const UserQuery = new QueryBuilder(User.find({ isDeleted: false }), query)
     .search(UserSearchableFields)
     .filter()
     .sort()
@@ -85,8 +85,10 @@ const getAllUser = async (query: Record<string, unknown>) => {
 //   return null;
 // };
 
+//admin functionalities
+
 const deleteUser = async (id: string) => {
-  const existUser = await User.findById(id);
+  const existUser = await User.findOne({ _id: id, isDeleted: false });
   if (!existUser) {
     throw new appError(httpStatus.NOT_FOUND, 'User not found!');
   }
@@ -105,7 +107,7 @@ const deleteUser = async (id: string) => {
 };
 
 const verifySellerRegistration = async (id: string) => {
-  const existUser = await User.findById(id);
+  const existUser = await User.findOne({ _id: id, isDeleted: false });
   if (!existUser) {
     throw new appError(httpStatus.NOT_FOUND, 'User not found!');
   }
@@ -119,7 +121,28 @@ const verifySellerRegistration = async (id: string) => {
       new: true,
     },
   );
+
   return result;
+};
+
+const getAllVerifyRequest = async (query: Record<string, unknown>) => {
+  const UserQuery = new QueryBuilder(
+    User.find({ isDeleted: false, isAdminApproved: false, role: 'seller' }),
+    query,
+  )
+    .search(UserSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const meta = await UserQuery.countTotal();
+  const result = await UserQuery.modelQuery;
+
+  return {
+    meta,
+    result,
+  };
 };
 
 export const UserService = {
@@ -128,6 +151,8 @@ export const UserService = {
   getMe,
   updateMe,
   getAllUser,
+
   deleteUser,
   verifySellerRegistration,
+  getAllVerifyRequest,
 };

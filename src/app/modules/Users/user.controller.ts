@@ -74,15 +74,27 @@ const deleteUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const verifySellerRegistration = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  const result = await UserService.deleteUser(id as string);
+  const result = await UserService.verifySellerRegistration(id as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Seller Registration Approved!',
+    data: result,
+  });
+});
+
+const getAllVerifyRequest = catchAsync(async (req, res) => {
+  const result = await UserService.getAllVerifyRequest(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get All Seller Verify Request!',
     data: result,
   });
 });
@@ -95,4 +107,5 @@ export const userControllers = {
   getAllUser,
   deleteUser,
   verifySellerRegistration,
+  getAllVerifyRequest,
 };

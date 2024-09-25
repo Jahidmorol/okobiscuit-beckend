@@ -14,7 +14,6 @@ export type TOrder = {
   shopOwnerName: string;
   contact: string;
   address: string;
-  date: string;
   deliveryDate: string;
   items: TOrderItem[];
   grandTotalPrice: number;

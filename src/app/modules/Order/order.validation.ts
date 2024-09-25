@@ -22,7 +22,6 @@ const OrderSchema = z
     shopOwnerName: z.string({ required_error: 'Shop owner name is required' }),
     contact: z.string({ required_error: 'Contact is required' }),
     address: z.string({ required_error: 'Address is required' }),
-    date: z.string({ required_error: 'Order date is required' }),
     deliveryDate: z.string({ required_error: 'Delivery date is required' }),
     items: z
       .array(OrderItemSchema, {
