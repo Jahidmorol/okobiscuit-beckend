@@ -4,7 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import { OrderService } from './order.service';
 
 const createOrder = catchAsync(async (req, res) => {
-  const result = await OrderService.createOrderDB(req.body);
+  const result = await OrderService.createOrderDB(req.user, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

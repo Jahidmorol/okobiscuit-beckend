@@ -4,7 +4,7 @@ export type TOrderItem = {
   name: string;
   unitPrice: number;
   quantity: number;
-  ItemTotalPrice: number;
+  itemTotalPrice: number;
 };
 
 export type TOrder = {
@@ -19,6 +19,5 @@ export type TOrder = {
   grandTotalPrice: number;
   advancedPrice: number;
   duePrice: number;
-  lastDue: number;
   totalPrice: number;
 };

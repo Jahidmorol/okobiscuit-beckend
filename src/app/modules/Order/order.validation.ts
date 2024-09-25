@@ -6,7 +6,7 @@ const OrderItemSchema = z
     name: z.string({ required_error: 'Item name is required' }),
     unitPrice: z.number({ required_error: 'Unit price is required' }),
     quantity: z.number({ required_error: 'Quantity is required' }),
-    ItemTotalPrice: z.number({
+    itemTotalPrice: z.number({
       required_error: 'Item total price is required',
     }),
   })
@@ -16,7 +16,7 @@ const OrderItemSchema = z
 const OrderSchema = z
   .object({
     // seller: z.instanceof(Types.ObjectId, { message: 'Invalid seller ID' }),
-    seller: z.string({ required_error: 'seller ID is required' }),
+    // seller: z.string({ required_error: 'seller ID is required' }),
     location: z.string({ required_error: 'Location is required' }),
     shopName: z.string({ required_error: 'Shop name is required' }),
     shopOwnerName: z.string({ required_error: 'Shop owner name is required' }),
@@ -33,7 +33,6 @@ const OrderSchema = z
     }),
     advancedPrice: z.number({ required_error: 'Advanced price is required' }),
     duePrice: z.number({ required_error: 'Due price is required' }),
-    lastDue: z.number({ required_error: 'Last due is required' }),
     totalPrice: z.number({ required_error: 'Total price is required' }),
   })
   .strict();

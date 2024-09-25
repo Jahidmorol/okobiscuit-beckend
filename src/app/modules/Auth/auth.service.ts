@@ -17,21 +17,26 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   // checking if the user is already deleted
-
   const isDeleted = user?.isDeleted;
 
   if (isDeleted) {
     throw new appError(httpStatus.FORBIDDEN, 'This user is deleted !');
   }
 
-  //checking if the password is correct
+  //checking admin approval
+  if (!user.isAdminApproved) {
+    throw new appError(
+      httpStatus.NOT_ACCEPTABLE,
+      'Please Waiting for admin approval',
+    );
+  }
 
+  //checking if the password is correct
   if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
     throw new appError(httpStatus.FORBIDDEN, 'Password do not matched');
   }
 
   //create token and sent to the  client
-
   const jwtPayload = {
     email: user.email,
     role: user.role,

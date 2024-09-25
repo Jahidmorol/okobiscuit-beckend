@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import QueryBuilder from '../../builder/QueryBuilder';
 import appError from '../../errors/appError';
 import { User } from '../Users/user.model';
@@ -6,30 +7,34 @@ import { TOrder } from './order.interface';
 import { Order } from './order.model';
 import httpStatus from 'http-status';
 
-const createOrderDB = async (payload: TOrder) => {
+const createOrderDB = async (
+  user: Record<string, unknown>,
+  payload: TOrder,
+) => {
   const isSellerExist = await User.findOne({
-    _id: payload.seller,
+    email: user.email,
     isAdminApproved: true,
   });
 
   if (!isSellerExist) {
     throw new appError(httpStatus.NOT_FOUND, 'This Seller does not exist');
   }
+  payload.seller = isSellerExist._id;
 
   const result = await Order.create(payload);
   return result;
 };
 
 const getAllOrder = async (query: Record<string, unknown>) => {
-  const DoctorQuery = new QueryBuilder(Order.find(), query)
+  const OrderQuery = new QueryBuilder(Order.find().populate('seller'), query)
     .search(OrderSearchableFields)
     .filter()
     .sort()
     .paginate()
     .fields();
 
-  const meta = await DoctorQuery.countTotal();
-  const result = await DoctorQuery.modelQuery;
+  const meta = await OrderQuery.countTotal();
+  const result = await OrderQuery.modelQuery;
 
   return {
     meta,

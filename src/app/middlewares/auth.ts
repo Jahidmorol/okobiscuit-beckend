@@ -49,7 +49,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!user.isAdminApproved) {
       throw new appError(
         httpStatus.NOT_ACCEPTABLE,
-        'Waiting for admin approval',
+        'Please Waiting for admin approval',
       );
     }
 

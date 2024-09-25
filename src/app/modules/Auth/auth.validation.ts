@@ -16,35 +16,7 @@ const changePasswordValidationSchema = z.object({
       .string({
         required_error: 'Password is required',
       })
-      .refine(
-        (value) => {
-          const hasUpperCase = /[A-Z]/.test(value);
-          const hasLowerCase = /[a-z]/.test(value);
-          const hasNumber = /[0-9]/.test(value);
-          const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-          const isLongEnough = value.length >= 8;
-
-          return (
-            hasUpperCase &&
-            hasLowerCase &&
-            hasNumber &&
-            hasSpecialChar &&
-            isLongEnough
-          );
-        },
-        {
-          message:
-            'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character',
-        },
-      ),
-  }),
-});
-
-const refreshTokenValidationSchema = z.object({
-  cookies: z.object({
-    refreshToken: z.string({
-      required_error: 'Refresh token is required!',
-    }),
+      .min(8, { message: 'Password must be at least 8 characters long' }),
   }),
 });
 
@@ -63,36 +35,15 @@ const resetPasswordValidationSchema = z.object({
     }),
     newPassword: z
       .string({
-        required_error: 'Password is required',
+        required_error: 'New Password is required',
       })
-      .refine(
-        (value) => {
-          const hasUpperCase = /[A-Z]/.test(value);
-          const hasLowerCase = /[a-z]/.test(value);
-          const hasNumber = /[0-9]/.test(value);
-          const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-          const isLongEnough = value.length >= 8;
-
-          return (
-            hasUpperCase &&
-            hasLowerCase &&
-            hasNumber &&
-            hasSpecialChar &&
-            isLongEnough
-          );
-        },
-        {
-          message:
-            'Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character',
-        },
-      ),
+      .min(8, { message: 'Password must be at least 8 characters long' }),
   }),
 });
 
 export const AuthValidation = {
   loginValidationSchema,
   changePasswordValidationSchema,
-  refreshTokenValidationSchema,
   forgetPasswordValidationSchema,
   resetPasswordValidationSchema,
 };

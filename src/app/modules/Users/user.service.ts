@@ -14,7 +14,6 @@ const createAdmin = async (payload: TUser) => {
     throw new appError(httpStatus.CONFLICT, 'User already exists');
   }
 
-  userData.role = 'admin';
   userData.isAdminApproved = true;
 
   const result = await User.create(userData);

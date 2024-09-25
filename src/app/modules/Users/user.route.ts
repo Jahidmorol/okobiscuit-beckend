@@ -8,7 +8,7 @@ import { UserValidation } from './user.validation';
 const router = express.Router();
 
 router.post(
-  '/admin',
+  '/',
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   validateRequest(UserValidation.createUserValidationSchema),
   userControllers.createAdmin,
@@ -16,7 +16,7 @@ router.post(
 
 router.post(
   '/seller',
-  validateRequest(UserValidation.createUserValidationSchema),
+  validateRequest(UserValidation.createSellerValidationSchema),
   userControllers.createSeller,
 );
 

@@ -5,7 +5,7 @@ const OrderItemSchema = new Schema<TOrderItem>({
   name: { type: String, required: true },
   unitPrice: { type: Number, required: true },
   quantity: { type: Number, required: true },
-  ItemTotalPrice: { type: Number, required: true },
+  itemTotalPrice: { type: Number, required: true },
 });
 
 const OrderSchema = new Schema<TOrder>(
@@ -22,11 +22,9 @@ const OrderSchema = new Schema<TOrder>(
     address: { type: String, required: true },
     deliveryDate: { type: String, required: true },
     items: { type: [OrderItemSchema], required: true },
-
     grandTotalPrice: { type: Number, required: true },
     advancedPrice: { type: Number, required: true },
     duePrice: { type: Number, required: true },
-    lastDue: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
   },
   {
