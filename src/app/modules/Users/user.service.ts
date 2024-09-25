@@ -75,16 +75,51 @@ const getAllUser = async (query: Record<string, unknown>) => {
   };
 };
 
-const deleteUser = async (id: string) => {
-  const findMachine = await User.findOne({ _id: id });
+// const deleteUser = async (id: string) => {
+//   const deletedUser = await User.findByIdAndDelete(id);
 
-  if (!findMachine) {
-    throw new appError(404, 'User not found!');
+//   if (!deletedUser) {
+//     throw new appError(httpStatus.NOT_FOUND, 'User not found!');
+//   }
+
+//   return null;
+// };
+
+const deleteUser = async (id: string) => {
+  const existUser = await User.findById(id);
+  if (!existUser) {
+    throw new appError(httpStatus.NOT_FOUND, 'User not found!');
   }
 
-  await User.findOneAndDelete({ _id: id });
+  await User.findByIdAndUpdate(
+    id,
+    {
+      isDeleted: true,
+    },
+    {
+      new: true,
+    },
+  );
 
   return null;
+};
+
+const verifySellerRegistration = async (id: string) => {
+  const existUser = await User.findById(id);
+  if (!existUser) {
+    throw new appError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+
+  const result = await User.findByIdAndUpdate(
+    id,
+    {
+      isAdminApproved: true,
+    },
+    {
+      new: true,
+    },
+  );
+  return result;
 };
 
 export const UserService = {
@@ -94,4 +129,5 @@ export const UserService = {
   updateMe,
   getAllUser,
   deleteUser,
+  verifySellerRegistration,
 };

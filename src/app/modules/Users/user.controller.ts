@@ -74,6 +74,18 @@ const deleteUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const verifySellerRegistration = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await UserService.deleteUser(id as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Seller Registration Approved!',
+    data: result,
+  });
+});
 
 export const userControllers = {
   createAdmin,
@@ -82,4 +94,5 @@ export const userControllers = {
   updateMe,
   getAllUser,
   deleteUser,
+  verifySellerRegistration,
 };

@@ -41,4 +41,10 @@ router.delete(
   userControllers.deleteUser,
 );
 
+router.patch(
+  '/admin-verify/:id',
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  userControllers.verifySellerRegistration,
+);
+
 export const userRoutes = router;

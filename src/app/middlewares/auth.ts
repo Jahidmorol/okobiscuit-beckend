@@ -45,6 +45,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new appError(httpStatus.FORBIDDEN, 'This user is deleted !');
     }
 
+    //checking admin approval
+    if (!user.isAdminApproved) {
+      throw new appError(
+        httpStatus.NOT_ACCEPTABLE,
+        'Waiting for admin approval',
+      );
+    }
+
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new appError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
     }
