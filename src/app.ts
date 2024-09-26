@@ -8,7 +8,7 @@ const app = express();
 // parser
 app.use(express.json());
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: ['http://localhost:5173', 'https://okobiscuit-admin.vercel.app'],
   credentials: true,
 };
 

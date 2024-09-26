@@ -23,14 +23,14 @@ router.get('/:id', OrderController.getSingleOrder);
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin, USER_ROLE.seller),
   validateRequest(updateOrderValidationSchema),
   OrderController.updateOrder,
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.seller),
   OrderController.deleteOrder,
 );
 
