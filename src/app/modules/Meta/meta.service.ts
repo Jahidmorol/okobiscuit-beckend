@@ -4,8 +4,8 @@ import { calculateStartDate, formatResult } from './meta.constants';
 // import { DateTime } from 'luxon';
 
 const FetchDashboardMetaData = async () => {
-  const resentOrders = await Order.countDocuments();
-  const totalOrders = await Order.countDocuments({ isDeleted: false });
+  const totalOrders = await Order.countDocuments();
+  const resentOrders = await Order.countDocuments({ isDeleted: false });
   const totalAdmins = await User.countDocuments({ role: 'admin' });
   const totalSeller = await User.countDocuments({ role: 'seller' });
   const totalSellerRequest = await User.countDocuments({

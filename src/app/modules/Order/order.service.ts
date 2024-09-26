@@ -25,8 +25,21 @@ const createOrderDB = async (
   return result;
 };
 
-const getAllOrder = async (query: Record<string, unknown>) => {
-  const OrderQuery = new QueryBuilder(Order.find().populate('seller'), query)
+const getAllOrder = async (
+  userEmail: string,
+  query: Record<string, unknown>,
+) => {
+  const isUser = await User.findOne({ email: userEmail });
+
+  const roleBasedQuery: Record<string, unknown> = {};
+  if (isUser && isUser.role === 'seller') {
+    roleBasedQuery.seller = isUser._id;
+  }
+
+  const OrderQuery = new QueryBuilder(
+    Order.find(roleBasedQuery).populate('seller'),
+    query,
+  )
     .search(OrderSearchableFields)
     .filter()
     .sort()

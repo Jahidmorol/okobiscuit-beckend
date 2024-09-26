@@ -31,6 +31,37 @@ class QueryBuilder<T> {
     // Filtering
     const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
+
+    // for filtering in createdAt like ---=> 2024-05-05 to 2024-06-06
+    // if (queryObj.deliveryDate && typeof queryObj.deliveryDate === 'string') {
+    //   const { deliveryDate, ...restQueryObj } = queryObj;
+
+    //   const deliveryDateNew = deliveryDate.split(',');
+
+    //   const desiredDate = new Date(deliveryDateNew[0]);
+    //   desiredDate.setHours(0, 0, 0, 0);
+    //   let nextDay;
+
+    //   if (deliveryDateNew.length > 1) {
+    //     nextDay = new Date(deliveryDateNew[1]);
+    //     nextDay.setHours(23, 59, 59, 999);
+    //     restQueryObj.deliveryDate = {
+    //       $gte: desiredDate,
+    //       $lte: nextDay,
+    //     };
+    //   } else {
+    //     nextDay = new Date(desiredDate);
+    //     nextDay.setDate(desiredDate.getDate() + 1);
+    //     nextDay.setHours(0, 0, 0, 0);
+    //     restQueryObj.deliveryDate = {
+    //       $gte: desiredDate,
+    //       $lt: nextDay,
+    //     };
+    //   }
+
+    //   queryObj = restQueryObj;
+    // }
+
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
 
     return this;

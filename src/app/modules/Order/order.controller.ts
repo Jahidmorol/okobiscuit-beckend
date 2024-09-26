@@ -15,7 +15,7 @@ const createOrder = catchAsync(async (req, res) => {
 });
 
 const getAllOrder = catchAsync(async (req, res) => {
-  const result = await OrderService.getAllOrder(req.query);
+  const result = await OrderService.getAllOrder(req.user.email, req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

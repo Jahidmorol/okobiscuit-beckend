@@ -17,9 +17,17 @@ router.post(
   OrderController.createOrder,
 );
 
-router.get('/', OrderController.getAllOrder);
+router.get(
+  '/',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.seller),
+  OrderController.getAllOrder,
+);
 
-router.get('/:id', OrderController.getSingleOrder);
+router.get(
+  '/:id',
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.seller),
+  OrderController.getSingleOrder,
+);
 
 router.patch(
   '/:id',

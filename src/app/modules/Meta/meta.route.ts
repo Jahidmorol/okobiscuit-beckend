@@ -13,7 +13,7 @@ router.get(
 
 router.get(
   '/order-chart',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.seller),
   MetaController.OrderAreaChart,
 );
 
