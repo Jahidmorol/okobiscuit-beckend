@@ -12,8 +12,8 @@ async function main() {
 
     seedSuperAdmin();
 
-    app.listen(config.port, () => {
-      console.log(`Example app listening on port ${config.port}`);
+    app.listen(config.port || 5000, () => {
+      console.log(`Example app listening on port ${config.port || 5000}`);
     });
   } catch (error) {
     console.log(error);
